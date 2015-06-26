@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FooterView" customModule="Dredr" customModuleProvider="target">
+            <connections>
+                <outlet property="arrowView" destination="hxu-in-3yC" id="eXY-AF-AB0"/>
+                <outlet property="feedTitleView" destination="XJ0-eo-9TB" id="EMv-hF-fKw"/>
+                <outlet property="lastEntryTitleView" destination="gJp-Ur-TS2" id="y86-Ye-dMm"/>
+                <outlet property="view" destination="iN0-l3-epB" id="nAI-Mt-LYi"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view opaque="NO" contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feeed Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XJ0-eo-9TB">
+                    <rect key="frame" x="269.5" y="564" width="61.5" height="15.5"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                    <color key="textColor" red="0.69803921568627447" green="0.69803921568627447" blue="0.69803921568627447" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last Article Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJp-Ur-TS2">
+                    <rect key="frame" x="20" y="538" width="560" height="17.5"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                    <color key="textColor" red="0.32941176470588235" green="0.32941176470588235" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hxu-in-3yC" customClass="ArrowView" customModule="Dredr" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="538"/>
+                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isFacingUp" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="gJp-Ur-TS2" secondAttribute="centerX" id="0MS-wq-g3P"/>
+                <constraint firstItem="gJp-Ur-TS2" firstAttribute="top" secondItem="hxu-in-3yC" secondAttribute="bottom" id="0xC-vO-K3K"/>
+                <constraint firstItem="hxu-in-3yC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Gqr-zs-tWY"/>
+                <constraint firstAttribute="trailing" secondItem="hxu-in-3yC" secondAttribute="trailing" id="Nqm-rC-Xku"/>
+                <constraint firstItem="hxu-in-3yC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Rkz-MZ-fg4"/>
+                <constraint firstAttribute="trailing" secondItem="gJp-Ur-TS2" secondAttribute="trailing" constant="20" symbolic="YES" id="S10-KY-qJr"/>
+                <constraint firstAttribute="centerX" secondItem="XJ0-eo-9TB" secondAttribute="centerX" id="UXh-En-Lmd"/>
+                <constraint firstAttribute="bottom" secondItem="XJ0-eo-9TB" secondAttribute="bottom" constant="20" symbolic="YES" id="Z8C-aT-MQp"/>
+                <constraint firstItem="XJ0-eo-9TB" firstAttribute="top" secondItem="gJp-Ur-TS2" secondAttribute="bottom" constant="8" symbolic="YES" id="eek-K0-dgG"/>
+                <constraint firstItem="gJp-Ur-TS2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="lbE-pt-f11"/>
+            </constraints>
+            <point key="canvasLocation" x="325" y="370"/>
+        </view>
+    </objects>
+</document>
