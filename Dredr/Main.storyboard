@@ -769,6 +769,73 @@
             </objects>
             <point key="canvasLocation" x="-321" y="446"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="fSm-ue-bgZ">
+            <objects>
+                <viewController id="q9Q-jk-z1e" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jpc-vC-c3U"/>
+                        <viewControllerLayoutGuide type="bottom" id="8lD-ou-spv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LWg-U5-jEn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPY-pg-YI3">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uDk-is-l9h">
+                                        <rect key="frame" x="20" y="20" width="560" height="496"/>
+                                        <string key="text">The "Dredr" project is my first iOS project which is written in Swift. You can get the source code at Github (https://github.com/zetasq/Dredr).
+
+Swift is a beautiful language, and iOS is a powerful platform. As a iOS novice developer, I hope this simple project will help other developers. Feel free to use the code, and I would be grateful if any improvements sent back. If you have any suggestions, contact me via my email address on Github :)</string>
+                                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="uDk-is-l9h" secondAttribute="trailing" constant="20" symbolic="YES" id="21s-u5-jeC"/>
+                                    <constraint firstItem="uDk-is-l9h" firstAttribute="top" secondItem="dPY-pg-YI3" secondAttribute="top" constant="20" symbolic="YES" id="IQh-7S-fkR"/>
+                                    <constraint firstItem="uDk-is-l9h" firstAttribute="leading" secondItem="dPY-pg-YI3" secondAttribute="leading" constant="20" symbolic="YES" id="Jgc-Jh-6tP"/>
+                                    <constraint firstAttribute="bottom" secondItem="uDk-is-l9h" secondAttribute="bottom" constant="20" symbolic="YES" id="fMQ-0P-c4k"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="dPY-pg-YI3" firstAttribute="leading" secondItem="LWg-U5-jEn" secondAttribute="leading" id="06a-LR-55Y"/>
+                            <constraint firstItem="dPY-pg-YI3" firstAttribute="top" secondItem="jpc-vC-c3U" secondAttribute="bottom" id="MRY-Vc-u8d"/>
+                            <constraint firstAttribute="trailing" secondItem="dPY-pg-YI3" secondAttribute="trailing" id="ZZb-50-mOO"/>
+                            <constraint firstItem="8lD-ou-spv" firstAttribute="top" secondItem="dPY-pg-YI3" secondAttribute="bottom" id="sSm-UG-HfM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="JaX-RQ-w3C">
+                        <nil key="title"/>
+                        <view key="titleView" contentMode="scaleToFill" id="d79-pr-BxL">
+                            <rect key="frame" x="180" y="5.5" width="240" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dev Notes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yP-3o-ekd">
+                                    <rect key="frame" x="81.5" y="7" width="77.5" height="19.5"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                    <color key="textColor" red="0.35294117650000001" green="0.35294117650000001" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="centerY" secondItem="9yP-3o-ekd" secondAttribute="centerY" id="q7M-ne-cjO"/>
+                                <constraint firstAttribute="centerX" secondItem="9yP-3o-ekd" secondAttribute="centerX" id="qet-vx-jMa"/>
+                            </constraints>
+                        </view>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nYB-6v-ex7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-277" y="-254"/>
+        </scene>
         <!--Settings View Controller-->
         <scene sceneID="kG8-Lo-mXC">
             <objects>
@@ -912,6 +979,7 @@
                     <connections>
                         <outlet property="tableView" destination="2Xf-Nf-t00" id="tiO-LN-gxg"/>
                         <segue destination="0Oh-F3-prA" kind="show" identifier="ShowUserSetting" id="b54-2g-wCx"/>
+                        <segue destination="q9Q-jk-z1e" kind="show" identifier="ShowAboutPage" id="jfj-0k-lJ9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y1a-Hc-iAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1047,7 +1115,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="k0G-4G-elh" firstAttribute="top" secondItem="86l-Ss-z6f" secondAttribute="bottom" id="ASp-5f-teh"/>
                             <constraint firstItem="k0G-4G-elh" firstAttribute="leading" secondItem="YW8-1B-Aqt" secondAttribute="leading" id="Ceq-bF-MOh"/>

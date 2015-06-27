@@ -29,6 +29,8 @@ final class UserConfig: NSObject, NSCoding
     // MARK: NSCoding
     
     init(coder aDecoder: NSCoder) {
+        super.init()
+        
         accountType = AccountType(rawValue: aDecoder.decodeObjectForKey("accountType") as! Int) ?? .Local
         allowsBackgroundFetch = aDecoder.decodeObjectForKey("allowsBackgroundFetch") as! Bool
     }

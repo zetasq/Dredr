@@ -38,30 +38,38 @@ class SettingsViewController: UIViewController
     // MARK: - Navigation
     
     let ShowUserSettingIdentifier = "ShowUserSetting"
+    let ShowAboutPageIdentifier = "ShowAboutPage"
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == ShowUserSettingIdentifier {
             if let userSettingVC = segue.destinationViewController as? UserSettingViewController {
                 userSettingVC.account = dmBoard.accounts[tableView.indexPathForSelectedRow()!.row]
+                return
             }
         }
     }
-   
-
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate
 {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        if dmBoard.accounts.isEmpty {
+            return 1
+        } else {
+            return 2
+        }
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Accounts"
-        } else {
+        if dmBoard.accounts.isEmpty {
             return "Dredr"
+        } else {
+            if section == 0 {
+                return "Accounts"
+            } else {
+                return "Dredr"
+            }
         }
     }
     
@@ -69,37 +77,61 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let headerView = view as! UITableViewHeaderFooterView
         
-        if section == 0 {
-            headerView.textLabel.text = "Accounts"
-        } else {
+        if dmBoard.accounts.isEmpty {
             headerView.textLabel.text = "Dredr"
+        } else {
+            if section == 0 {
+                headerView.textLabel.text = "Accounts"
+            } else {
+                headerView.textLabel.text = "Dredr"
+            }
         }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return dmBoard.accounts.count
-        } else {
+        if dmBoard.accounts.isEmpty {
             return 1
+        } else {
+            if section == 0 {
+                return dmBoard.accounts.count
+            } else {
+                return 1
+            }
         }
     }
     
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(AccountSettingCellIdentifier, forIndexPath: indexPath) as! AccountSettingCell
-            
-            cell.account = dmBoard.accounts[indexPath.row]
-            return cell
-        } else {
+        if dmBoard.accounts.isEmpty {
             let cell = tableView.dequeueReusableCellWithIdentifier(AboutProjectCellIdentifier, forIndexPath: indexPath) as! UITableViewCell
             return cell
+        } else {
+            if indexPath.section == 0 {
+                let cell = tableView.dequeueReusableCellWithIdentifier(AccountSettingCellIdentifier, forIndexPath: indexPath) as! AccountSettingCell
+                
+                cell.account = dmBoard.accounts[indexPath.row]
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(AboutProjectCellIdentifier, forIndexPath: indexPath) as! UITableViewCell
+                return cell
+            }
         }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
-            performSegueWithIdentifier(ShowUserSettingIdentifier, sender: self)
+        if dmBoard.accounts.isEmpty {
+            performSegueWithIdentifier(ShowAboutPageIdentifier, sender: self)
+            return
+        } else {
+            if indexPath.section == 0 {
+                performSegueWithIdentifier(ShowUserSettingIdentifier, sender: self)
+                return
+            }
+            
+            if indexPath.section == 1 {
+                performSegueWithIdentifier(ShowAboutPageIdentifier, sender: self)
+                return
+            }
         }
     }
 }

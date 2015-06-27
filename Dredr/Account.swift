@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 final class Account: NSObject, NSCoding, Equatable
 {
     var userName: String = "noName"

@@ -12,11 +12,12 @@ This singleton object is used as global data model for storing feed information,
 
 */
 import Foundation
+import UIKit
 
-enum ReadingScheme: Printable {
-    case All
-    case Unread
-    case Starred
+enum ReadingScheme: Int, Printable {
+    case All = 0
+    case Unread = 1
+    case Starred = 2
     
     var description: String {
         switch self {
@@ -30,19 +31,51 @@ enum ReadingScheme: Printable {
     }
 }
 
-enum HierarchyScheme {
-    case SingleChannel
-    case AllChannels
+enum HierarchyScheme: Int {
+    case SingleChannel = 0
+    case AllChannels = 1
 }
 
-public class DMBoard
+public class DMBoard: NSObject, NSCoding
 {
     static let sharedBoard = DMBoard()
     
-    private init() {
-        // import from core data
+    private override init() {
+        super.init()
+        
+        let fileMgr = NSFileManager.defaultManager()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir = dirPaths[0] as! String
+        let dataFilePath = docsDir.stringByAppendingPathComponent("Accounts.data")
+        
+        if fileMgr.fileExistsAtPath(dataFilePath) {
+            accounts = NSKeyedUnarchiver.unarchiveObjectWithFile(dataFilePath) as! [Account]
+        } else {
+            accounts = []
+        }
     }
-
+    
+    func saveData() {
+        let fileMgr = NSFileManager.defaultManager()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let docsDir = dirPaths[0] as! String
+        let dataFilePath = docsDir.stringByAppendingPathComponent("Accounts.data")
+        
+        NSKeyedArchiver.archiveRootObject(accounts, toFile: dataFilePath)
+    }
+    
+    
+    func refreshAccounts() {
+        for account in accounts {
+            if account.userConfig.allowsBackgroundFetch {
+                for channel in account.channels {
+                    channel.refreshContent()
+                }
+            }
+        }
+    }
+    
+    // MARK: Instance members
     var accounts = [Account]()
     
     var currentReadingScheme: ReadingScheme = .All // this determines the reading scheme in every viewcontroller that supports the switching between All, Unread and Starred. The viewcontroller should implement the toolbar and relevent switching functions.
@@ -56,6 +89,7 @@ public class DMBoard
     var currentItem: Item? // this variable should be set when an article(item) is dived in, which is used for further operations(add/remove tag)
     
     var refreshEveryFeed: Bool = true // this variable is used to determine whether the feeds should auto-refresh data when accountDetailVC reloads its tableView. If set to true, the feed will refresh anyway; if set to false, the feed only refreshs when its feedData is nil.
+    
     
     func addAccount(userName: String, config: UserConfig) {
         let account = Account(userName: userName, userConfig: config)
@@ -98,4 +132,25 @@ public class DMBoard
         }
     }
     
+    public required init(coder aDecoder: NSCoder) {
+        super.init()
+        
+        accounts = aDecoder.decodeObjectForKey("accounts") as! [Account]
+        currentReadingScheme = ReadingScheme(rawValue: aDecoder.decodeObjectForKey("currentReadingScheme") as! Int) ?? .All
+        currentHierarchyScheme = HierarchyScheme(rawValue: aDecoder.decodeObjectForKey("currentHierarchyScheme") as! Int) ?? .SingleChannel
+        currentAccount = aDecoder.decodeObjectForKey("currentAccount") as! Account?
+        currentChannel = aDecoder.decodeObjectForKey("currentChannel") as! Channel?
+        currentItem = aDecoder.decodeObjectForKey("currentItem") as! Item?
+        refreshEveryFeed = aDecoder.decodeObjectForKey("refreshEveryFeed") as! Bool
+    }
+    
+    public func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(accounts, forKey: "accounts")
+        aCoder.encodeObject(currentReadingScheme.rawValue, forKey: "currentReadingScheme")
+        aCoder.encodeObject(currentHierarchyScheme.rawValue, forKey: "currentHierarchyScheme")
+        aCoder.encodeObject(currentAccount, forKey: "currentAccount")
+        aCoder.encodeObject(currentChannel, forKey: "currentChannel")
+        aCoder.encodeObject(currentItem, forKey: "currentItem")
+        aCoder.encodeObject(refreshEveryFeed, forKey: "refreshEveryFeed")
+    }
 }

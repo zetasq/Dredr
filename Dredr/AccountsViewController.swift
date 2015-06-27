@@ -47,7 +47,8 @@ class AccountsViewController: UIViewController, UITableViewDataSource, UITableVi
     var dmBoard = DMBoard.sharedBoard
     
     func config() {
-        initRefreshControl()
+        // Enabling refresh in AccountsVC require an account should be notified when all of its channels are refreshed. Now I haven't figured out how to implement it. 
+//        initRefreshControl()
     }
     
     func configSelectedCell() {
