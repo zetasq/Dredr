@@ -769,24 +769,6 @@
             </objects>
             <point key="canvasLocation" x="-321" y="446"/>
         </scene>
-        <!--Test View Controller-->
-        <scene sceneID="mL9-I5-fRo">
-            <objects>
-                <viewController id="IUd-Ri-4aI" customClass="TestViewController" customModule="Dredr" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="aQT-hh-xtC"/>
-                        <viewControllerLayoutGuide type="bottom" id="u7D-dK-n4l"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="uXA-tx-PsA">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aDh-6T-6SB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-437" y="1162"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="fSm-ue-bgZ">
             <objects>
