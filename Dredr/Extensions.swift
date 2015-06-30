@@ -17,9 +17,15 @@ extension String {
     }
 }
 
-extension UILabel
-{
+func daysFromDate(date: NSDate, toDate: NSDate) -> Int {
+    var calendar = NSCalendar.currentCalendar()
     
+    let date_1 = calendar.startOfDayForDate(date)
+    let date_2 = calendar.startOfDayForDate(toDate)
+    
+    let components = calendar.components(.CalendarUnitDay, fromDate: date_1, toDate: date_2, options: nil)
+    
+    return components.day
 }
 
 //extension String

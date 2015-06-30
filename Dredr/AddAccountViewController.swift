@@ -14,11 +14,7 @@ class AddAccountViewController: UIViewController {
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var backgroundFetchSwitch: UISwitch!
-    @IBOutlet weak var iCloudSyncSwitch: UISwitch!
-    
-    func config() {
-
-    }
+    @IBOutlet weak var storageDaysPickerView: UIPickerView!
     
     // MARK: Interaction Calls
     let FinishAddIdentifier = "AddAccount"
@@ -36,9 +32,9 @@ class AddAccountViewController: UIViewController {
                     alert.addAction(defaultAction)
                     presentViewController(alert, animated: true, completion: nil)
                 } else {
-                    let accountType: AccountType = iCloudSyncSwitch.on ? .SyncedWithiCloud : .Local
                     let allowsBackgroundFetch = backgroundFetchSwitch.on
-                    let config = UserConfig(accountType: accountType, allowsBackgroundFetch: allowsBackgroundFetch)
+                    let storageDays = storageDaysSource[storageDaysPickerView.selectedRowInComponent(0)]
+                    let config = UserConfig(accountType: .Local, allowsBackgroundFetch: allowsBackgroundFetch, storageDays: storageDays)
                     
                     dmBoard.addAccount(userName, config: config)
                     performSegueWithIdentifier(FinishAddIdentifier, sender: self)
@@ -72,6 +68,20 @@ class AddAccountViewController: UIViewController {
     
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+}
+
+extension AddAccountViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return storagePickerTitles.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return storagePickerTitles[row]
     }
 }
 

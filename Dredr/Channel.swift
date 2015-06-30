@@ -47,9 +47,7 @@ public class Channel: NSObject, NSCoding, NSXMLParserDelegate {
                         }
                     }
                 }
-                dispatch_sync(dispatch_get_main_queue()) { () -> Void in
-                    NSNotificationCenter.defaultCenter().postNotificationName(DredrNotifications.FaviconRefreshingCompleted, object: self)
-                }
+                NSNotificationCenter.defaultCenter().postNotificationName(DredrNotifications.FaviconRefreshingCompleted, object: self)
                 self.isLoadingFavicon = false
             }
             task.resume()
@@ -109,9 +107,8 @@ public class Channel: NSObject, NSCoding, NSXMLParserDelegate {
                         }
                     }
                 }
-                dispatch_sync(dispatch_get_main_queue()) { () -> Void in
-                    NSNotificationCenter.defaultCenter().postNotificationName(DredrNotifications.FeedDataRefreshingCompleted, object: self)
-                }
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(DredrNotifications.FeedDataRefreshingCompleted, object: self)
                 self.isRefreshing = false
             }
             task.resume()

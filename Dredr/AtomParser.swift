@@ -102,10 +102,13 @@ final class AtomParser: NSObject, Parser
             if !parseStack.isEmpty {
                 parseStack.removeLast()
             }
+            
+            if feedData!.pubDate == nil {
+                feedData!.pubDate = AtomParser.dateFromPubDate(currentContent!)
+            }
+            
             if !parseStack.isEmpty {
                 switch parseStack.last! {
-                case "feed":
-                    feedData!.pubDate = AtomParser.dateFromPubDate(currentContent!)
                 case "entry":
                     tempItem?.pubDate = AtomParser.dateFromPubDate(currentContent!)
                 default: break

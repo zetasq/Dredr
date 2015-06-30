@@ -46,6 +46,7 @@ final class Account: NSObject, NSCoding, Equatable
         }
         
         unreadItems.append(item)
+        sortItemsByDate(&unreadItems)
         return true
     }
     
@@ -55,6 +56,7 @@ final class Account: NSObject, NSCoding, Equatable
         
         if !contains(starredItems, item) {
             starredItems.append(item)
+            sortItemsByDate(&starredItems)
             return true
         } else {
             return false
@@ -104,13 +106,33 @@ final class Account: NSObject, NSCoding, Equatable
     }
     
     func dataUpdatedInChannel(channel: Channel) {
-        // remove old items of channel
-        allItems = allItems.filter { $0.channel != channel }
-        unreadItems = unreadItems.filter { $0.channel != channel }
-        starredItems = starredItems.filter { $0.channel != channel }
+        let now = NSDate()
         
         allItems += channel.feedData!.items
+        allItems = allItems.filter { (item) -> Bool in
+            if item.channel == channel && self.userConfig.storageDays != 0 { // 0 means forever
+                if item.pubDate == nil {
+                    return true // don't know WTF, but we have to keep this item
+                } else {
+                   return (daysFromDate(item.pubDate!, now) <= self.userConfig.storageDays)
+                }
+            } else {
+                return true
+            }
+        }
+        
         unreadItems += channel.feedData!.items
+        unreadItems = unreadItems.filter { (item) -> Bool in
+            if item.channel == channel && self.userConfig.storageDays != 0 { // 0 means forever
+                if item.pubDate == nil {
+                    return true // don't know WTF, but we have to keep this item
+                } else {
+                    return (daysFromDate(item.pubDate!, now) <= self.userConfig.storageDays)
+                }
+            } else {
+                return true
+            }
+        }
     }
     
     

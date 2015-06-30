@@ -112,8 +112,10 @@ class AccountDetailViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func handleChannelRefreshed(notification: NSNotification) {
-        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? AllChannelsCell {
-            cell.updateUI()
+        dispatch_sync(dispatch_get_main_queue()) { () -> Void in
+            if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? AllChannelsCell {
+                cell.updateUI()
+            }
         }
     }
     

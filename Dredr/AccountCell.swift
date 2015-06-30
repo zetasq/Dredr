@@ -15,8 +15,8 @@ class AccountCell: UITableViewCell {
     @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var accountSyncTimeLabel: UILabel!
     @IBOutlet weak var accountItemsCountLabel: UILabel!
-    
     @IBOutlet weak var forwardView: UIImageView!
+    
     
     var dmBoard = DMBoard.sharedBoard
     
@@ -67,14 +67,10 @@ class AccountCell: UITableViewCell {
         }
     }
     
+    
     func highlightContent() {
-        switch account.userConfig.accountType {
-        case .Local:
-            accountLogoView.image = UIImage(named: "rss_selected")
-        case .SyncedWithiCloud:
-            accountLogoView.image = UIImage(named: "cloud_selected")
-        }
-        
+        accountLogoView.image = UIImage(named: "rss_selected")
+
         accountSyncTimeLabel.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         accountItemsCountLabel.textColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         forwardView.image = UIImage(named: "forward_selected")
@@ -82,13 +78,8 @@ class AccountCell: UITableViewCell {
     
     
     func resetContent() {
-        switch account.userConfig.accountType {
-        case .Local:
-            accountLogoView.image = UIImage(named: "rss_unselected")
-        case .SyncedWithiCloud:
-            accountLogoView.image = UIImage(named: "cloud_unselected")
-        }
-        
+        accountLogoView.image = UIImage(named: "rss_unselected")
+
         accountSyncTimeLabel.textColor = UIColor(red: 140.0/255, green: 140.0/255, blue: 140.0/255, alpha: 1.0)
         accountItemsCountLabel.textColor = UIColor(red: 140.0/255, green: 140.0/255, blue: 140.0/255, alpha: 1.0)
         forwardView.image = UIImage(named: "forward_unselected")

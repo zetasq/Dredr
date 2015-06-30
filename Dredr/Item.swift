@@ -58,3 +58,15 @@ infix operator == { precedence 130 associativity none }
 func ==(lhs: Item, rhs: Item) -> Bool {
     return lhs === rhs
 }
+
+func sortItemsByDate(inout items: [Item]) {
+    items.sort {
+        if $0.pubDate == nil {
+            return false
+        } else if $1.pubDate == nil {
+            return true
+        } else {
+            return $0.pubDate!.compare($1.pubDate!) == .OrderedDescending
+        }
+    }
+}

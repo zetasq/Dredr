@@ -57,11 +57,11 @@ class ChannelCell: UITableViewCell {
     func updateItemCounter() {
         switch dmBoard.currentReadingScheme {
         case .All:
-            itemCounter = channel.feedData!.items.count
+            itemCounter = (dmBoard.currentAccount!.allItems.filter { $0.channel == self.channel }).count
         case .Starred:
-            itemCounter = channel.feedData!.getStarred().count
+            itemCounter = (dmBoard.currentAccount!.starredItems.filter { $0.channel == self.channel }).count
         case .Unread:
-            itemCounter = channel.feedData!.getUnread().count
+            itemCounter = (dmBoard.currentAccount!.unreadItems.filter { $0.channel == self.channel }).count
         }
     }
     
@@ -107,21 +107,26 @@ class ChannelCell: UITableViewCell {
     }
     
     func channelRefreshed(notification: NSNotification) {
-        if channel.feedData != nil {
-            updateItemCounter()
-            forwardView.hidden = false
-        } else {
-            self.warningLabel.hidden = false
+        dispatch_sync(dispatch_get_main_queue()) { () -> Void in
+            if self.channel.feedData != nil {
+                self.updateItemCounter()
+                self.forwardView.hidden = false
+            } else {
+                self.warningLabel.hidden = false
+            }
+            
+            self.spinner.stopAnimating()
+            self.spinner.hidden = true
+            self.isLoading = false
+            
         }
-        
-        spinner.stopAnimating()
-        spinner.hidden = true
-        isLoading = false
     }
     
     func faviconRefreshed(notification: NSNotification) {
-        if channel.favicon != nil {
-            faviconImageView.image = channel.favicon!
+        dispatch_sync(dispatch_get_main_queue()) { () -> Void in
+            if self.channel.favicon != nil {
+                self.faviconImageView.image = self.channel.favicon!
+            }
         }
     }
     

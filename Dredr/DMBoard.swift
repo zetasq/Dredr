@@ -40,30 +40,50 @@ public class DMBoard: NSObject, NSCoding
 {
     static let sharedBoard = DMBoard()
     
+    let AccountsDataFileName = "Accounts.data"
+    let ModifyDateFileName = "ModifyDate.data"
+    
+    var accounts = [Account]()
+    var modifyDate = NSDate()
+    
+    
     private override init() {
         super.init()
         
-        let fileMgr = NSFileManager.defaultManager()
-        let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let docsDir = dirPaths[0] as! String
-        let dataFilePath = docsDir.stringByAppendingPathComponent("Accounts.data")
+        let dataFilePath = getDocsDir().stringByAppendingPathComponent(AccountsDataFileName)
         
-        if fileMgr.fileExistsAtPath(dataFilePath) {
-            accounts = NSKeyedUnarchiver.unarchiveObjectWithFile(dataFilePath) as! [Account]
-        } else {
-            accounts = []
+        if NSFileManager.defaultManager().fileExistsAtPath(dataFilePath) {
+            if let storedAccounts = NSKeyedUnarchiver.unarchiveObjectWithFile(dataFilePath) as? [Account] {
+                accounts = storedAccounts
+            }
+        }
+        
+        
+        let modifyDateFilePath = getDocsDir().stringByAppendingPathComponent(ModifyDateFileName)
+        
+        if NSFileManager.defaultManager().fileExistsAtPath(modifyDateFilePath) {
+            if let storedModifyDate = NSKeyedUnarchiver.unarchiveObjectWithFile(modifyDateFilePath) as? NSDate {
+                modifyDate = storedModifyDate
+            }
         }
     }
     
     func saveData() {
+        let dataFilePath = getDocsDir().stringByAppendingPathComponent(AccountsDataFileName)
+        NSKeyedArchiver.archiveRootObject(accounts, toFile: dataFilePath)
+        
+        
+        let modifyDateFilePath = getDocsDir().stringByAppendingPathComponent(ModifyDateFileName)
+        modifyDate = NSDate()
+        NSKeyedArchiver.archiveRootObject(modifyDate, toFile: modifyDateFilePath)
+    }
+    
+    func getDocsDir() -> String {
         let fileMgr = NSFileManager.defaultManager()
         let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let docsDir = dirPaths[0] as! String
-        let dataFilePath = docsDir.stringByAppendingPathComponent("Accounts.data")
-        
-        NSKeyedArchiver.archiveRootObject(accounts, toFile: dataFilePath)
+        return docsDir
     }
-    
     
     func refreshAccounts() {
         for account in accounts {
@@ -75,8 +95,7 @@ public class DMBoard: NSObject, NSCoding
         }
     }
     
-    // MARK: Instance members
-    var accounts = [Account]()
+    // MARK: State indicators
     
     var currentReadingScheme: ReadingScheme = .All // this determines the reading scheme in every viewcontroller that supports the switching between All, Unread and Starred. The viewcontroller should implement the toolbar and relevent switching functions.
     

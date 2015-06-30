@@ -92,21 +92,21 @@ final class RssParser: NSObject, Parser
             if !parseStack.isEmpty {
                 parseStack.removeLast()
             }
-            if !parseStack.isEmpty {
-                switch parseStack.last! {
-                case "channel":
-                    feedData!.lastBuildDate = RssParser.dateFromPubDate(currentContent!)
-                default: break
-                }
+            
+            if feedData!.lastBuildDate == nil {
+                feedData!.lastBuildDate = RssParser.dateFromPubDate(currentContent!)
             }
         case "pubDate":
             if !parseStack.isEmpty {
                 parseStack.removeLast()
             }
+            
+            if feedData!.pubDate == nil {
+                feedData!.pubDate = RssParser.dateFromPubDate(currentContent!)
+            }
+            
             if !parseStack.isEmpty {
                 switch parseStack.last! {
-                case "channel":
-                    feedData!.pubDate = RssParser.dateFromPubDate(currentContent!)
                 case "item":
                     tempItem?.pubDate = RssParser.dateFromPubDate(currentContent!)
                 default: break

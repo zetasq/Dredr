@@ -44,10 +44,13 @@ class FeedChecker: NSObject, NSXMLParserDelegate
     var currentElement: String!
     var currentContent: String!
     
+    var itemCounter = 0
+    
     private override init() { }
     
     func checkFeedDataFormat(feedData: NSData) -> FeedCheckResult {
         checkResult = FeedCheckResult(feedFormat: .Unidentified, updatedDate: nil)
+        itemCounter = 0
         
         var parser = NSXMLParser(data: feedData)
         parser.delegate = self
@@ -90,12 +93,18 @@ class FeedChecker: NSObject, NSXMLParserDelegate
             currentElement = elementName
         case "updated":
             currentElement = elementName
-        case "item": // if encounter the first item in RSS, it means we've checked the feed's header
-            chooseEffectiveDate()
-            parser.abortParsing()
-        case "entry": // if encounter the first entry in Atom, it means we've checked the feed's header
-            chooseEffectiveDate()
-            parser.abortParsing()
+        case "item": // check until the second item
+            itemCounter++
+            if itemCounter > 1 {
+                chooseEffectiveDate()
+                parser.abortParsing()
+            }
+        case "entry": // check until the second entry
+            itemCounter++
+            if itemCounter > 1 {
+                chooseEffectiveDate()
+                parser.abortParsing()
+            }
         default: break
         }
     }
@@ -107,11 +116,17 @@ class FeedChecker: NSObject, NSXMLParserDelegate
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         switch elementName {
         case "pubDate":
-            pubDate = RssParser.dateFromPubDate(currentContent)
+            if pubDate == nil {
+                pubDate = RssParser.dateFromPubDate(currentContent)
+            }
         case "lastBuildDate":
-            lastBuildDate = RssParser.dateFromPubDate(currentContent)
+            if lastBuildDate == nil {
+                lastBuildDate = RssParser.dateFromPubDate(currentContent)
+            }
         case "updated":
-            updated = AtomParser.dateFromPubDate(currentContent)
+            if updated == nil {
+                updated = AtomParser.dateFromPubDate(currentContent)
+            }
         default: break
         }
     }

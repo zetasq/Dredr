@@ -21,7 +21,7 @@ class UserSettingViewController: UIViewController {
         tableView.estimatedRowHeight = 100
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -30,18 +30,18 @@ class UserSettingViewController: UIViewController {
     
     let UsernameSettingCellIdentifier = "UsernameSettingCell"
     let FetchSettingCellIdentifier = "FetchSettingCell"
-    let SyncSettingCellIdentifier = "SyncSettingCell"
+    let StorageTimeSettingCellIdentifier = "StorageTimeSettingCell"
     
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
 
 extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate
@@ -95,23 +95,45 @@ extension UserSettingViewController: UITableViewDataSource, UITableViewDelegate
             
             cell.account = account
             cell.nameField.delegate = self
-
+            
             return cell
         } else {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCellWithIdentifier(FetchSettingCellIdentifier, forIndexPath: indexPath) as! FetchSettingCell
-                
+            
                 cell.account = account
-                
+            
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(SyncSettingCellIdentifier, forIndexPath: indexPath) as! SyncSettingCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(StorageTimeSettingCellIdentifier, forIndexPath: indexPath) as! StorageTimeSettingCell
                 
-                cell.account = account
+                cell.storageTimePickerView.dataSource = self
+                cell.storageTimePickerView.delegate = self
                 
-                return cell
+                let storageDaysIndex = find(storageDaysSource, account.userConfig.storageDays)
+                cell.storageTimePickerView.selectRow(storageDaysIndex!, inComponent: 0, animated: false)
+                
+                return cell 
             }
         }
+    }
+}
+
+extension UserSettingViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return storagePickerTitles.count
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        return storagePickerTitles[row]
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        account.userConfig.storageDays = storageDaysSource[row]
     }
 }
 

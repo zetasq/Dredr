@@ -70,8 +70,10 @@ class ChannelDetailViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     func channelRefreshed(notification: NSNotification) {
-        configDataSource()
-        refreshControl.endRefreshing()
+        dispatch_sync(dispatch_get_main_queue()) { () -> Void in
+            self.configDataSource()
+            self.refreshControl.endRefreshing()
+        }
     }
     
     func config() {
@@ -119,11 +121,11 @@ class ChannelDetailViewController: UIViewController, UITableViewDataSource, UITa
         case .SingleChannel:
             switch dmBoard.currentReadingScheme {
             case .All:
-                items = channel.feedData!.items
+                items = dmBoard.currentAccount!.allItems.filter { $0.channel == self.channel }
             case .Unread:
-                items = channel.feedData!.getUnread()
+                items = dmBoard.currentAccount!.unreadItems.filter { $0.channel == self.channel }
             case .Starred:
-                items = channel.feedData!.getStarred()
+                items = dmBoard.currentAccount!.starredItems.filter { $0.channel == self.channel }
             }
         }
         
